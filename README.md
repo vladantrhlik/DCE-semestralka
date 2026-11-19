@@ -9,7 +9,8 @@ a `frontend/`; oba image vycházejí z Alpine Linuxu.
 Z kořene projektu spusťte tříuzlový ZooKeeper ensemble a jeden frontend:
 
 ```sh
-docker compose up --build -d
+docker compose pull
+docker compose up -d
 ```
 
 REST API je dostupné z hostitele na `http://localhost:5000`. Kontejnery ve
@@ -30,10 +31,6 @@ docker compose down
 Pojmenované volumes zůstanou zachované; pro jejich odstranění je třeba spustit
 `docker compose down -v`.
 
-Oba image můžete sestavit také skriptem z kořene projektu: `build.bat` ve
-Windows nebo `sh build.sh` v Linuxu/macOS. Skript vytvoří tagy
-`dce-zookeeper:latest` a `dce-frontend:latest`.
-
 ### Publikování do GitHub Container Registry
 
 Workflow `.github/workflows/publish-images.yml` sestaví a publikuje oba
@@ -46,9 +43,7 @@ git push origin dce-semestralka-v1.0.0
 
 Výsledné image budou `ghcr.io/vladantrhlik/dce-zookeeper:1.0.0` a
 `ghcr.io/vladantrhlik/dce-frontend:1.0.0`; workflow zároveň aktualizuje tag
-`latest`. Pro stažení z privátního balíčku se přihlaste příkazem
-`docker login ghcr.io`. Chcete-li image používat veřejně, změňte viditelnost
-balíčků v nastavení GitHubu na Public.
+`latest`.
 
 ## REST API
 
@@ -69,10 +64,3 @@ curl -X PUT http://localhost:5000/kv/greeting \
   -H "Content-Type: application/json" -d '"hello"'
 curl http://localhost:5000/kv/greeting
 ```
-
-## Nastavení
-
-- ZooKeeper: `ZOO_MY_ID` (výchozí `1`), `ZOO_CLIENT_PORT` (výchozí `2181`) a
-  `ZOO_SERVERS` (řádky `server.N=...`; prázdné znamená samostatný server).
-- Frontend: `ZK_HOSTS` (výchozí `zookeeper:2181`), `KV_ROOT` (výchozí `/kv`),
-  `ZK_START_TIMEOUT` (výchozí `15` sekund) a `PORT` (výchozí `5000`).
