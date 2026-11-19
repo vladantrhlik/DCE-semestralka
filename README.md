@@ -1,4 +1,4 @@
-# DCE semestrálka
+# Semestrální práce z KIV/DCE
 
 Distribuovaný key-value store postavený na Apache ZooKeeperu s jednoduchým REST
 frontendem. Zdrojové soubory obou kontejnerů jsou oddělené v adresářích `zookeeper/`
