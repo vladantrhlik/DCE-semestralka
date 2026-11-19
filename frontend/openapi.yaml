@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Key-Value API
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: Connected
+        "503":
+          description: Unavailable
+  /kv:
+    get:
+      responses:
+        "200":
+          description: Key list
+  /kv/{key}:
+    parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      responses:
+        "200":
+          description: Value
+        "404":
+          description: Not found
+    put:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {}
+      responses:
+        "200":
+          description: Updated
+        "201":
+          description: Created
+    delete:
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
